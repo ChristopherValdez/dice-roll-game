@@ -5,43 +5,43 @@
  * Purpose: Dice game version 8. This game needed to include certain required functions and is not optimal. Some functions were added to meet grading requirements.
  */
 
-//System Libraries
-#include <iostream>  //Input/Output Library
+// System Libraries
+#include <iostream>  // Input/Output Library
 #include <string>
 #include <iomanip>
-#include <fstream>  //File in and out
+#include <fstream>  // File in and out
 #include <ctime>
 #include <cmath>
 
 using namespace std;
-//User Libraries
-//Global Constants, no Global Variables are allowed
-//Math/Physics/Conversions/Higher Dimensions - i.e. PI, e, etc...
-//Function Prototypes
+// User Libraries
+// Global Constants, no Global Variables are allowed
+// Math/Physics/Conversions/Higher Dimensions - i.e. PI, e, etc...
+// Function Prototypes
 int diceRoll();
 void gameRules();
 void playGame(int&, int&);
 void gameRatio(int, int);
 void highScores();
-void sSort(string[],int = 4); //string sort default arg
-void sSort(int[],int = 4);  //int sort default arg
+void sSort(string[],int = 4); // String sort default arg
+void sSort(int[],int = 4);  // Int sort default arg
 int lnrSrch(string [], int);
 void swap(int,int,string,string);
 bool stop(bool);
 void exit();
-//Execution Begins Here!
+// Execution Begins Here!
 int main(int argc, char** argv) {
-    //Set the random number seed
+    // Set the random number seed
     srand(time(NULL));
-    //Declare Variables
+    // Declare Variables
     int choice, wins = 0, losses = 0;
     bool playing = true;
     string error = "Error: Invalid Entry, Please choose from the menu.";
-    //Initialize or input i.e. set variable values
-    //Map inputs -> outputs
+    // Initialize or input i.e. set variable values
+    // Map inputs -> outputs
     do
     {
-        //Main Menu
+        // Main Menu
         cout << "1. Play a round of Craps." << endl;
         cout << "2. View Win/Loss Ratio." << endl;
         cout << "3. View the Game Rules." << endl;
@@ -55,13 +55,13 @@ int main(int argc, char** argv) {
             cin.ignore(123, '\n');
             clog << "\n" << error << "\n" << endl;
         }
-        else if(cin){   // If input it int then check switch case and run function
+        else if(cin){   // If input is integer then check switch case and run function
             switch(choice)
             {
                 case 1: // Begin a game with var wins and losses
                     playGame(wins, losses);
                     break;
-                case 2: // display sin loss ratio
+                case 2: // Display win/loss ratio
                     gameRatio(wins, losses);
                     break;
                 case 3: // Display game rules
@@ -70,7 +70,7 @@ int main(int argc, char** argv) {
                 case 4: // Run highscore function
                     highScores();
                     break;
-                case 5: // change var of playing bool to false
+                case 5: // Change bool playing to false
                     playing = stop(playing);
                     break;
                 default:    // If the user choice is not a valid choice output error string
@@ -81,9 +81,9 @@ int main(int argc, char** argv) {
             }
         }
     }while(playing == true);
-    //Display the outputs
+    // Display the outputs
     
-    //Exit stage right or left!
+    // Exit stage right or left!
     exit();
     return 0;
 }
@@ -115,7 +115,7 @@ void gameRatio(int wins,int losses)
     // Output wins and losses
     cout << "Total Wins: " << wins << endl;
     cout << "Total Losses: " << losses << endl;
-    // if statment for when the wins and losses = 0 output nothing.
+    // If statment for when the wins and losses = 0 output nothing.
     if (wins == 0 || losses == 0){
         ratio = 0;
         cout << "";
@@ -153,19 +153,19 @@ void playGame(int& wins,int& losses){
     else{   // Otherwise the Comeout becomes the point and is checked against the roll var to determine if the user wins, losses or rerolls.
         point = comeOut;
         cout << "point is " << point << endl;
-        // while the user does not roll the point or 7 the user rolls again.
+        // While the user does not roll the point or 7 the user rolls again.
         while(reRoll == true){
             // diceRoll function is called and stored to var roll
             roll = diceRoll();
             cout << "Your total is " << roll << endl;
             cout << endl;
-            if (roll == point){ // if the user rolls the point they win.
+            if (roll == point){ // If the user rolls the point they win.
                 cout << "You have won the round!\n" << endl;    // Win message is displayed.
                 wins++; // Win is incremented
                 reRoll = false; // reRoll bool is changed to false.
             }
             else{
-                if (roll == 7){ // if the user rolls 7 they loss.
+                if (roll == 7){ // If the user rolls 7 they loss.
                     cout << "You have lost the round.\n" << endl;   // loss message is displayed
                     losses++;   // losses incremented
                     reRoll = false; // reRoll var is changed to false
@@ -176,7 +176,7 @@ void playGame(int& wins,int& losses){
 }
 void gameRules(){
     cout << endl;
-    static int view = 0;    //static int to count page views
+    static int view = 0;    // Static int to count page views
     for(int i=0; i<=70 ;i++){
         cout << "*";    // Boarder is with 71 * characters
     }
@@ -190,35 +190,35 @@ void gameRules(){
     for(int i=0; i<=70 ;i++){
         cout << "*";
     }
-    view++; // view count is incremented
+    view++; // View count is incremented
     cout << "\n" << endl;
-    cout << "You have viewed this page " << view << " times.\n" << endl;    // view count is displayed
+    cout << "You have viewed this page " << view << " times.\n" << endl;    // View count is displayed
 }
 void highScores(){
     const int SCORE_SIZE = 4;
-    string names[SCORE_SIZE];   //Names array
-    int scores[SCORE_SIZE];   //Scores array
+    string names[SCORE_SIZE];   // Names array
+    int scores[SCORE_SIZE];   // Scores array
     ifstream inputFile;
     ofstream outputFile;
 
-    inputFile.open("Score.txt");    //open input file
+    inputFile.open("Score.txt");    // Open input file
     
-    for(int i=0; i<SCORE_SIZE; i++){    //for loop names and score into arrays
+    for(int i=0; i<SCORE_SIZE; i++){    // For loop names and score into arrays
         inputFile >> names[i];
         inputFile >> scores[i];
     }
-    inputFile.close();  //close file
+    inputFile.close();  // Close file
     
-    sSort(names);   //overloaded function with default arg int
-    sSort(scores);  //overloaded function with default arg int
+    sSort(names);   // Overloaded function with default arg int
+    sSort(scores);  // Overloaded function with default arg int
     
     cout << "\n" << setw(18) << "High Scores:\n" << endl;
-    for (int i=0; i<SCORE_SIZE; i++){   //for loop output names
-        cout << setw(11) << names[i];   //Score output
+    for (int i=0; i<SCORE_SIZE; i++){   // For loop output names
+        cout << setw(11) << names[i];   // Score output
         cout << setw(5) << scores[i] << endl;
     }
     cout << endl;
-    int index = lnrSrch(names, SCORE_SIZE); //Linear search
+    int index = lnrSrch(names, SCORE_SIZE); // Linear search
     if(index == -1){
         cout << "\nYour name is not on the high score list.\n" << endl;
     }
@@ -226,15 +226,15 @@ void highScores(){
         cout << "\n" << "Your Score is: ";
         cout << scores[index] << "\n" << endl;
     }
-    outputFile.open("HighScore.txt");    //open input file
+    outputFile.open("HighScore.txt");    // Open input file
     
-    for(int i=0; i<SCORE_SIZE; i++){    //for loop names and score into arrays
+    for(int i=0; i<SCORE_SIZE; i++){    // For loop names and score into arrays
         outputFile << names[i] << endl;
         outputFile << scores[i] << endl;
     }
-    outputFile.close();  //close file
+    outputFile.close();  // Close file
 }
-void sSort(string a[], int n){  // sort function for highscore names.
+void sSort(string a[], int n){  // Sort function for highscore names.
     int startScan, minIndex;
     string minValue;
     
@@ -251,7 +251,7 @@ void sSort(string a[], int n){  // sort function for highscore names.
         a[startScan] = minValue;
     }
 }
-void sSort(int a[], int n){ // sort function for highscore scores.
+void sSort(int a[], int n){ // Sort function for highscore scores.
     int startScan, minIndex, minValue;
     
     for (startScan = 0; startScan < (n - 1); startScan++){
@@ -267,7 +267,7 @@ void sSort(int a[], int n){ // sort function for highscore scores.
         a[startScan] = minValue;
     }
 }
-int lnrSrch(string a[], int n){ // linear search for user inout name from highscore list
+int lnrSrch(string a[], int n){ // Linear search for user inout name from highscore list
     string val;
     cout << "What is your name: ";
     cin >> val;
@@ -278,7 +278,7 @@ int lnrSrch(string a[], int n){ // linear search for user inout name from highsc
     }
     return -1;
 }
-bool stop(bool playing){    // stop function is called to end game
+bool stop(bool playing){    // Stop function is called to end game
     playing = false;
     return playing;
 }
